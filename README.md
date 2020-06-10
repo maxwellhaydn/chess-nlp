@@ -5,7 +5,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
 
 ## Installation
 
- npm install chess-nlp
+    npm install chess-nlp
 
 ## Node.js usage
 
