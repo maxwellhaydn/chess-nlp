@@ -1,0 +1,39 @@
+{
+  "name": "chess-nlp",
+  "version": "1.0.0",
+  "description": "Convert natural language descriptions of chess moves to algebraic notation",
+  "main": "dist/chess-nlp.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
+    "build": "npx webpack-cli --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxwellhaydn/chess-nlp.git"
+  },
+  "keywords": [
+    "chess",
+    "nlp"
+  ],
+  "author": "Max Carey",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/maxwellhaydn/chess-nlp/issues"
+  },
+  "homepage": "https://github.com/maxwellhaydn/chess-nlp#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-loader": "^8.1.0",
+    "chai": "^4.2.0",
+    "eslint": "^7.2.0",
+    "eslint-loader": "^4.0.2",
+    "jest": "^26.0.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "pegjs": "^0.10.0"
+  }
+}
