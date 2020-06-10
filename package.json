@@ -4,7 +4,8 @@
   "description": "Convert natural language descriptions of chess moves to algebraic notation",
   "main": "dist/chess-nlp.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx webpack-cli --mode production"
   },
   "repository": {
     "type": "git",
