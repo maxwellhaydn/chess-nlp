@@ -148,27 +148,27 @@ const configurableRules = {
     king: {
         name: 'king',
         defaultTerm: 'king',
-        action: `return 'K';`
+        action: "return 'K';"
     },
     queen: {
         name: 'queen',
         defaultTerm: 'queen',
-        action: `return 'Q';`
+        action: "return 'Q';"
     },
     rook: {
         name: 'rook',
         defaultTerm: 'rook',
-        action: `return 'R';`
+        action: "return 'R';"
     },
     bishop: {
         name: 'bishop',
         defaultTerm: 'bishop',
-        action: `return 'B';`
+        action: "return 'B';"
     },
     knight: {
         name: 'knight',
         defaultTerm: 'knight',
-        action: `return 'N';`
+        action: "return 'N';"
     }
 };
 
