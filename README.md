@@ -31,6 +31,36 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
     const parser = new ChessNLP();
     console.log(parser.toSAN('castle queenside')); // O-O-O
 
+## Configuration
+
+The parser can be configured to accept alternate spellings of piece names. For
+example:
+
+    const options = {
+        aliases: {
+            knight: ['horse', 'jumper'],
+            rook: ['tower']
+        }
+    };
+    const parser = new ChessNLP(options);
+
+    parser.toSAN('Horse to F6'); // Nf6
+    parser.toSAN('tower takes b2 checkmate'); // Rxb2#
+
+The aliases object can contain one or more of the following keys:
+
+* king
+* queen
+* rook
+* bishop
+* knight
+
+## Exceptions
+
+The parser will throw an exception if the supplied text cannot be parsed:
+
+    parser.toSAN('foo'); // Invalid move: foo
+
 ## Examples
 
     bishop to D7                    -> Bd7
