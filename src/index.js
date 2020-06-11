@@ -172,7 +172,16 @@ const parser = peg.generate(grammar);
 export default class ChessNLP {
 
     toSAN(text) {
-        return parser.parse(text);
+        try {
+            return parser.parse(text);
+        }
+        catch (error) {
+            if (error.name === 'SyntaxError') {
+                throw new Error(`Invalid move: ${text}`);
+            }
+
+            throw error;
+        }
     }
 
 }

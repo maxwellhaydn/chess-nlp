@@ -40,6 +40,12 @@ describe('ChessNLP', function() {
                 .to.throw('Invalid en passant capture');
         });
 
+        it("should throw an error when text can't be parsed", function() {
+            const parser = new ChessNLP();
+
+            expect(() => parser.toSAN('foo')).to.throw('Invalid move: foo');
+        });
+
     });
 
 });
