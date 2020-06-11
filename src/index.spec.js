@@ -4,6 +4,20 @@ import ChessNLP from './index';
 
 describe('ChessNLP', function() {
 
+    describe('constructor', function() {
+
+        it('should succeed with no arguments', function() {
+            expect(() => new ChessNLP()).not.to.throw();
+        });
+
+        it('should accept an "aliases" option', function() {
+            const parser = new ChessNLP({ aliases: 'foo' });
+
+            expect(parser.aliases).to.equal('foo');
+        });
+
+    });
+
     describe('toSAN', function() {
 
         it.each([
@@ -38,6 +52,28 @@ describe('ChessNLP', function() {
 
             expect(() => parser.toSAN('g takes h7 en passant'))
                 .to.throw('Invalid en passant capture');
+        });
+
+        it("should throw an error when text can't be parsed", function() {
+            const parser = new ChessNLP();
+
+            expect(() => parser.toSAN('foo')).to.throw('Invalid move: foo');
+        });
+
+    });
+
+    describe('aliases', function() {
+
+        it.each([
+            ['king', ['foo', 'bar'], 'bar takes c7', 'Kxc7'],
+            ['queen', ['kween'], 'KwEen to A8', 'Qa8'],
+            ['rook', ['Brooke', 'brook', 'hook'], 'brook A d6', 'Rad6'],
+            ['bishop', ['foo', 'bar'], 'foo 2 e4', 'B2e4'],
+            ['knight', ['night', 'nite'], 'Night captures b2 mate', 'Nxb2#'],
+        ])('%j aliases', (target, aliases, text, expected) => {
+            const parser = new ChessNLP({ aliases: { [target]: aliases } });
+
+            expect(parser.toSAN(text)).to.equal(expected);
         });
 
     });
