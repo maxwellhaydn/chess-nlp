@@ -140,23 +140,48 @@ const grammar = `
     piece
         = king / queen / rook / bishop / knight
 
-    king
-        = 'king'i { return 'K'; }
-
-    queen
-        = 'queen'i { return 'Q'; }
-
-    rook
-        = 'rook'i { return 'R'; }
-
-    bishop
-        = 'bishop'i { return 'B'; }
-
-    knight
-        = 'knight'i { return 'N'; }
 `;
 
-const parser = peg.generate(grammar);
+// Rules that can be configured by the user. For example, users could add
+// aliases for common misspellings of terms, like "night" instead of "knight"
+const configurableRules = {
+    king: {
+        name: 'king',
+        defaultTerm: 'king',
+        action: `return 'K';`
+    },
+    queen: {
+        name: 'queen',
+        defaultTerm: 'queen',
+        action: `return 'Q';`
+    },
+    rook: {
+        name: 'rook',
+        defaultTerm: 'rook',
+        action: `return 'R';`
+    },
+    bishop: {
+        name: 'bishop',
+        defaultTerm: 'bishop',
+        action: `return 'B';`
+    },
+    knight: {
+        name: 'knight',
+        defaultTerm: 'knight',
+        action: `return 'N';`
+    }
+};
+
+/**
+ * Given a configurable rule and an array of aliases, generate the rule text to
+ * be added to the parser grammar.
+ */
+const generateRuleText = (rule, aliases) => {
+    // Make all terms case insensitive
+    const terms = [rule.defaultTerm, ...aliases].map(term => `'${term}'i`);
+
+    return `${rule.name} = ( ${terms.join(' / ')} ) { ${rule.action} }\n`;
+};
 
 /**
  * Convert natural language text to chess standard algebraic notation (SAN).
@@ -171,9 +196,24 @@ const parser = peg.generate(grammar);
  */
 export default class ChessNLP {
 
+    constructor({ aliases } = { aliases: {} }) {
+        this.aliases = aliases;
+        this.grammar = grammar;
+
+        // Generate the text for configurable rules, applying any aliases
+        // supplied by the user, and append to the default grammar
+        for (let ruleTarget in configurableRules) {
+            const rule = configurableRules[ruleTarget];
+            this.grammar +=
+                generateRuleText(rule, this.aliases[ruleTarget] || []);
+        }
+
+        this.parser = peg.generate(this.grammar);
+    }
+
     toSAN(text) {
         try {
-            return parser.parse(text);
+            return this.parser.parse(text);
         }
         catch (error) {
             if (error.name === 'SyntaxError') {
