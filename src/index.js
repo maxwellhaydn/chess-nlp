@@ -135,7 +135,7 @@ const grammar = `
         = [1-8]
 
     file
-        = letter:[a-h]i { return letter.toLowerCase(); }
+        = a / b / c / d / e / f / g / h
 
     piece
         = king / queen / rook / bishop / knight
@@ -145,6 +145,7 @@ const grammar = `
 // Rules that can be configured by the user. For example, users could add
 // aliases for common misspellings of terms, like "night" instead of "knight"
 const configurableRules = {
+    // Pieces
     king: {
         name: 'king',
         defaultTerm: 'king',
@@ -169,7 +170,48 @@ const configurableRules = {
         name: 'knight',
         defaultTerm: 'knight',
         action: "return 'N';"
-    }
+    },
+    // Files
+    a: {
+        name: 'a',
+        defaultTerm: 'a',
+        action: "return 'a';"
+    },
+    b: {
+        name: 'b',
+        defaultTerm: 'b',
+        action: "return 'b';"
+    },
+    c: {
+        name: 'c',
+        defaultTerm: 'c',
+        action: "return 'c';"
+    },
+    d: {
+        name: 'd',
+        defaultTerm: 'd',
+        action: "return 'd';"
+    },
+    e: {
+        name: 'e',
+        defaultTerm: 'e',
+        action: "return 'e';"
+    },
+    f: {
+        name: 'f',
+        defaultTerm: 'f',
+        action: "return 'f';"
+    },
+    g: {
+        name: 'g',
+        defaultTerm: 'g',
+        action: "return 'g';"
+    },
+    h: {
+        name: 'h',
+        defaultTerm: 'h',
+        action: "return 'h';"
+    },
 };
 
 /**
@@ -178,7 +220,7 @@ const configurableRules = {
  */
 const generateRuleText = (rule, aliases) => {
     // Make all terms case insensitive
-    const terms = [rule.defaultTerm, ...aliases].map(term => `'${term}'i`);
+    const terms = [...aliases, rule.defaultTerm].map(term => `'${term}'i`);
 
     return `${rule.name} = ( ${terms.join(' / ')} ) { ${rule.action} }\n`;
 };

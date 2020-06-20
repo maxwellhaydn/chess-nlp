@@ -41,6 +41,7 @@ describe('ChessNLP', function() {
             ['castle Queenside', 'O-O-O'],
             ['Black Resigns', '1-0'],
             ['white resigns', '0-1'],
+            ['rook a takes a3', 'Raxa3'],
         ])('.toSAN(%j)', (text, expected) => {
             const parser = new ChessNLP();
 
@@ -70,6 +71,14 @@ describe('ChessNLP', function() {
             ['rook', ['Brooke', 'brook', 'hook'], 'brook A d6', 'Rad6'],
             ['bishop', ['foo', 'bar'], 'foo 2 e4', 'B2e4'],
             ['knight', ['night', 'nite'], 'Night captures b2 mate', 'Nxb2#'],
+            ['a', ['alpha'], 'ALPHA takes b4', 'axb4'],
+            ['b', ['beta', 'bravo'], 'rook bravo to beta7', 'Rbb7'],
+            ['c', ['charlie'], 'charlie6', 'c6'],
+            ['d', ['delta'], 'Queen captures DELTA1 checkmate', 'Qxd1#'],
+            ['e', ['echo'], 'Echo5', 'e5'],
+            ['f', ['foxtrot'], 'knight foxtrot3', 'Nf3'],
+            ['g', ['golf'], 'rook golf takes golf2', 'Rgxg2'],
+            ['h', ['hotel', 'hey'], 'rook hey takes hotel6', 'Rhxh6'],
         ])('%j aliases', (target, aliases, text, expected) => {
             const parser = new ChessNLP({ aliases: { [target]: aliases } });
 

@@ -33,27 +33,40 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
 
 ## Configuration
 
-The parser can be configured to accept alternate spellings of piece names. For
-example:
+The parser can be configured to accept alternate spellings of pieces and files.
+For example:
 
     const options = {
         aliases: {
             knight: ['horse', 'jumper'],
-            rook: ['tower']
+            rook: ['tower'],
+            a: ['alpha'],
+            b: ['beta', 'bravo'],
+            c: ['charlie']
         }
     };
     const parser = new ChessNLP(options);
 
     parser.toSAN('Horse to F6'); // Nf6
     parser.toSAN('tower takes b2 checkmate'); // Rxb2#
+    parser.toSAN('tower alpha takes bravo7'); // Raxb7
+    parser.toSAN('horse charlie to Alpha4'); // Nca4
 
-The aliases object can contain one or more of the following keys:
+The aliases object can contain the following keys:
 
 * king
 * queen
 * rook
 * bishop
 * knight
+* a
+* b
+* c
+* d
+* e
+* f
+* g
+* h
 
 ## Exceptions
 
