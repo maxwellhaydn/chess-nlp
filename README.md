@@ -47,10 +47,10 @@ For example:
     };
     const parser = new ChessNLP(options);
 
-    parser.toSAN('Horse to F6'); // Nf6
+    parser.toSAN('Horse to F6');              // Nf6
     parser.toSAN('tower takes b2 checkmate'); // Rxb2#
     parser.toSAN('tower alpha takes bravo7'); // Raxb7
-    parser.toSAN('horse charlie to Alpha4'); // Nca4
+    parser.toSAN('horse charlie to Alpha 4'); // Nca4
 
 The aliases object can contain the following keys:
 
@@ -83,6 +83,7 @@ The parser will throw an exception if the supplied text cannot be parsed:
     knight a to B4                  -> Nab4
     Bishop 2 h8                     -> B2h8
     Queen C2D3                      -> Qc2d3
+    queen c 2 d 3                   -> Qc2d3
     F captures G4 en passant        -> fxg3
     a takes b5 en passant           -> axb4
     E5                              -> e5
