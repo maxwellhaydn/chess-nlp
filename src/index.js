@@ -103,8 +103,14 @@ const grammar = `
         = ('checkmate'i / 'mate'i) { return '#'; }
 
     castle
-        = 'castle'i whitespace side:('kingside'i / 'queenside'i)
+        = 'castle'i whitespace side:(kingside / queenside)
           { return /king/i.test(side) ? 'O-O' : 'O-O-O'; }
+
+    kingside
+        = 'king'i whitespace 'side'i / 'king-side'i / 'kingside'i
+
+    queenside
+        = 'queen'i whitespace 'side'i / 'queen-side'i / 'queenside'i
 
     resign
         = player:('black'i / 'white'i) whitespace 'resigns'i

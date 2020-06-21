@@ -39,6 +39,8 @@ describe('ChessNLP', function() {
             ['E7 check', 'e7+'],
             ['castle kingside', 'O-O'],
             ['castle Queenside', 'O-O-O'],
+            ['castle King Side', 'O-O'],
+            ['castle queen-side', 'O-O-O'],
             ['Black Resigns', '1-0'],
             ['white resigns', '0-1'],
             ['rook a takes a3', 'Raxa3'],
