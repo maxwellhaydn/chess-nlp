@@ -53,6 +53,7 @@ describe('ChessNLP', function() {
             ['f six', 'f6'],
             ['king dseven', 'Kd7'],
             ['rook six f eight', 'R6f8'],
+            ['queen a-4', 'Qa4'],
         ])('.toSAN(%j)', (text, expected) => {
             const parser = new ChessNLP();
 

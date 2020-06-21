@@ -135,7 +135,11 @@ const grammar = `
         = square
 
     square
-        = coordinates:(file rank / file whitespace rank)
+        = coordinates:(
+              file rank /
+              file whitespace rank /
+              file:(file) '-' rank:(rank) { return [file, rank]; }
+          )
           { return coordinates.join(''); }
 
     rank
