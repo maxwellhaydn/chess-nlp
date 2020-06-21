@@ -139,10 +139,10 @@ const grammar = `
           { return coordinates.join(''); }
 
     rank
-        = [1-8]
+        = rank_1 / rank_2 / rank_3 / rank_4 / rank_5 / rank_6 / rank_7 / rank_8
 
     file
-        = a / b / c / d / e / f / g / h
+        = file_a / file_b / file_c / file_d / file_e / file_f / file_g / file_h
 
     piece
         = king / queen / rook / bishop / knight
@@ -155,69 +155,110 @@ const configurableRules = {
     // Pieces
     king: {
         name: 'king',
-        defaultTerm: 'king',
+        defaultTerms: ['king'],
         action: "return 'K';"
     },
     queen: {
         name: 'queen',
-        defaultTerm: 'queen',
+        defaultTerms: ['queen'],
         action: "return 'Q';"
     },
     rook: {
         name: 'rook',
-        defaultTerm: 'rook',
+        defaultTerms: ['rook'],
         action: "return 'R';"
     },
     bishop: {
         name: 'bishop',
-        defaultTerm: 'bishop',
+        defaultTerms: ['bishop'],
         action: "return 'B';"
     },
     knight: {
         name: 'knight',
-        defaultTerm: 'knight',
+        defaultTerms: ['knight'],
         action: "return 'N';"
     },
     // Files
     a: {
-        name: 'a',
-        defaultTerm: 'a',
+        name: 'file_a',
+        defaultTerms: ['a'],
         action: "return 'a';"
     },
     b: {
-        name: 'b',
-        defaultTerm: 'b',
+        name: 'file_b',
+        defaultTerms: ['b'],
         action: "return 'b';"
     },
     c: {
-        name: 'c',
-        defaultTerm: 'c',
+        name: 'file_c',
+        defaultTerms: ['c'],
         action: "return 'c';"
     },
     d: {
-        name: 'd',
-        defaultTerm: 'd',
+        name: 'file_d',
+        defaultTerms: ['d'],
         action: "return 'd';"
     },
     e: {
-        name: 'e',
-        defaultTerm: 'e',
+        name: 'file_e',
+        defaultTerms: ['e'],
         action: "return 'e';"
     },
     f: {
-        name: 'f',
-        defaultTerm: 'f',
+        name: 'file_f',
+        defaultTerms: ['f'],
         action: "return 'f';"
     },
     g: {
-        name: 'g',
-        defaultTerm: 'g',
+        name: 'file_g',
+        defaultTerms: ['g'],
         action: "return 'g';"
     },
     h: {
-        name: 'h',
-        defaultTerm: 'h',
+        name: 'file_h',
+        defaultTerms: ['h'],
         action: "return 'h';"
+    },
+    // Ranks
+    1: {
+        name: 'rank_1',
+        defaultTerms: ['1', 'one'],
+        action: "return '1';"
+    },
+    2: {
+        name: 'rank_2',
+        defaultTerms: ['2', 'two'],
+        action: "return '2';"
+    },
+    3: {
+        name: 'rank_3',
+        defaultTerms: ['3', 'three'],
+        action: "return '3';"
+    },
+    4: {
+        name: 'rank_4',
+        defaultTerms: ['4', 'four'],
+        action: "return '4';"
+    },
+    5: {
+        name: 'rank_5',
+        defaultTerms: ['5', 'five'],
+        action: "return '5';"
+    },
+    6: {
+        name: 'rank_6',
+        defaultTerms: ['6', 'six'],
+        action: "return '6';"
+    },
+    7: {
+        name: 'rank_7',
+        defaultTerms: ['7', 'seven'],
+        action: "return '7';"
+    },
+    8: {
+        name: 'rank_8',
+        defaultTerms: ['8', 'eight'],
+        action: "return '8';"
     },
 };
 
@@ -227,7 +268,7 @@ const configurableRules = {
  */
 const generateRuleText = (rule, aliases) => {
     // Make all terms case insensitive
-    const terms = [...aliases, rule.defaultTerm].map(term => `'${term}'i`);
+    const terms = [...aliases, ...rule.defaultTerms].map(term => `'${term}'i`);
 
     return `${rule.name} = ( ${terms.join(' / ')} ) { ${rule.action} }\n`;
 };

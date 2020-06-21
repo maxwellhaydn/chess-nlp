@@ -33,8 +33,8 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
 
 ## Configuration
 
-The parser can be configured to accept alternate spellings of pieces and files.
-For example:
+The parser can be configured to accept alternate spellings of pieces, ranks,
+and files. For example:
 
     const options = {
         aliases: {
@@ -42,7 +42,10 @@ For example:
             rook: ['tower'],
             a: ['alpha'],
             b: ['beta', 'bravo'],
-            c: ['charlie']
+            c: ['charlie'],
+            1: ['i'],
+            2: ['ii'],
+            3: ['iii']
         }
     };
     const parser = new ChessNLP(options);
@@ -51,6 +54,24 @@ For example:
     parser.toSAN('tower takes b2 checkmate'); // Rxb2#
     parser.toSAN('tower alpha takes bravo7'); // Raxb7
     parser.toSAN('horse charlie to Alpha 4'); // Nca4
+    parser.toSAN('tower to betaIII');         // Rb3
+
+Note that when one alias is a substring of another, the longest alias must come
+first:
+
+    // This works
+    const options = {
+        aliases: {
+            2: ['tooo', 'too', 'to']
+        }
+    };
+
+    // This doesn't
+    const options = {
+        aliases: {
+            2: ['to', 'too', 'tooo']
+        }
+    };
 
 The aliases object can contain the following keys:
 
@@ -67,6 +88,14 @@ The aliases object can contain the following keys:
 * f
 * g
 * h
+* 1
+* 2
+* 3
+* 4
+* 5
+* 6
+* 7
+* 8
 
 ## Exceptions
 
@@ -97,3 +126,4 @@ The parser will throw an exception if the supplied text cannot be parsed:
     castle Queenside                -> O-O-O
     Black Resigns                   -> 1-0
     white resigns                   -> 0-1
+    king to d seven                 -> Kd7

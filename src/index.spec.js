@@ -45,6 +45,14 @@ describe('ChessNLP', function() {
             ['white resigns', '0-1'],
             ['rook a takes a3', 'Raxa3'],
             ['queen c 2 d 3', 'Qc2d3'],
+            ['e one', 'e1'],
+            ['bishop captures A two', 'Bxa2'],
+            ['queen to b three check', 'Qb3+'],
+            ['knight take hfour checkmate', 'Nxh4#'],
+            ['Cfive', 'c5'],
+            ['f six', 'f6'],
+            ['king dseven', 'Kd7'],
+            ['rook six f eight', 'R6f8'],
         ])('.toSAN(%j)', (text, expected) => {
             const parser = new ChessNLP();
 
@@ -82,6 +90,14 @@ describe('ChessNLP', function() {
             ['f', ['foxtrot'], 'knight foxtrot 3', 'Nf3'],
             ['g', ['golf'], 'rook golf takes golf2', 'Rgxg2'],
             ['h', ['hotel', 'hey'], 'rook hey takes hotel 6', 'Rhxh6'],
+            ['1', ['i', 'won'], 'rook won takes a i', 'R1xa1'],
+            ['2', ['too', 'to'], 'e too', 'e2'],
+            ['3', ['iii'], 'knight to fiii', 'Nf3'],
+            ['4', ['force'], 'bishop g force', 'Bg4'],
+            ['5', ['v'], 'Knight V to b7', 'N5b7'],
+            ['6', ['vi'], 'hvi', 'h6'],
+            ['7', ['vii'], 'Queen to c vii check', 'Qc7+'],
+            ['8', ['ate'], 'king b ate', 'Kb8'],
         ])('%j aliases', (target, aliases, text, expected) => {
             const parser = new ChessNLP({ aliases: { [target]: aliases } });
 
