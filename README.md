@@ -56,23 +56,6 @@ and files. For example:
     parser.toSAN('horse charlie to Alpha 4'); // Nca4
     parser.toSAN('tower to betaIII');         // Rb3
 
-Note that when one alias is a substring of another, the longest alias must come
-first:
-
-    // This works
-    const options = {
-        aliases: {
-            2: ['tooo', 'too', 'to']
-        }
-    };
-
-    // This doesn't
-    const options = {
-        aliases: {
-            2: ['to', 'too', 'tooo']
-        }
-    };
-
 The aliases object can contain the following keys:
 
 * king

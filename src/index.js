@@ -271,8 +271,12 @@ const configurableRules = {
  * be added to the parser grammar.
  */
 const generateRuleText = (rule, aliases) => {
-    // Make all terms case insensitive
-    const terms = [...aliases, ...rule.defaultTerms].map(term => `'${term}'i`);
+    // Sort terms by length, with longest terms first to avoid matching shorter
+    // terms that are substrings of longer ones, and make all matches case
+    // insensitive
+    const terms = [...rule.defaultTerms, ...aliases]
+        .sort((a, b) => b.length - a.length)
+        .map(term => `'${term}'i`);
 
     return `${rule.name} = ( ${terms.join(' / ')} ) { ${rule.action} }\n`;
 };

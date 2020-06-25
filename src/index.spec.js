@@ -105,6 +105,12 @@ describe('ChessNLP', function() {
             expect(parser.toSAN(text)).to.equal(expected);
         });
 
+        it('should allow aliases in any order', () => {
+            const parser = new ChessNLP({ aliases: { 4: ['for', 'fore'] } });
+
+            expect(parser.toSAN('knight to h fore')).to.equal('Nh4');
+        });
+
     });
 
 });
