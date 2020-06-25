@@ -12,7 +12,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
     const ChessNLP = require('chess-nlp');
 
     const parser = new ChessNLP();
-    console.log(parser.toSAN('castle queenside')); // O-O-O
+    console.log(parser.textToSan('castle queenside')); // O-O-O
 
 ## Browser usage
 
@@ -21,7 +21,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
     <script src="https://unpkg.com/chess-nlp"></script>
     <script>
       var parser = new ChessNLP();
-      console.log(parser.toSAN('castle queenside')); // O-O-O
+      console.log(parser.textToSan('castle queenside')); // O-O-O
     </script>
 
 ### Webpack
@@ -29,7 +29,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
     import ChessNLP from 'chess-nlp';
 
     const parser = new ChessNLP();
-    console.log(parser.toSAN('castle queenside')); // O-O-O
+    console.log(parser.textToSan('castle queenside')); // O-O-O
 
 ## Configuration
 
@@ -50,11 +50,11 @@ and files. For example:
     };
     const parser = new ChessNLP(options);
 
-    parser.toSAN('Horse to F6');              // Nf6
-    parser.toSAN('tower takes b2 checkmate'); // Rxb2#
-    parser.toSAN('tower alpha takes bravo7'); // Raxb7
-    parser.toSAN('horse charlie to Alpha 4'); // Nca4
-    parser.toSAN('tower to betaIII');         // Rb3
+    parser.textToSan('Horse to F6');              // Nf6
+    parser.textToSan('tower takes b2 checkmate'); // Rxb2#
+    parser.textToSan('tower alpha takes bravo7'); // Raxb7
+    parser.textToSan('horse charlie to Alpha 4'); // Nca4
+    parser.textToSan('tower to betaIII');         // Rb3
 
 The aliases object can contain the following keys:
 
@@ -84,7 +84,7 @@ The aliases object can contain the following keys:
 
 The parser will throw an exception if the supplied text cannot be parsed:
 
-    parser.toSAN('foo'); // Invalid move: foo
+    parser.textToSan('foo'); // Invalid move: foo
 
 ## Examples
 

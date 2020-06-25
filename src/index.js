@@ -292,7 +292,7 @@ const generateRuleText = (rule, aliases) => {
  *     castle queenside         -> O-O-O
  *     white resigns            -> 0-1
  */
-export default class ChessNLP {
+const ChessNLP = class ChessNLP {
 
     constructor({ aliases } = { aliases: {} }) {
         this.aliases = aliases;
@@ -309,7 +309,7 @@ export default class ChessNLP {
         this.parser = peg.generate(this.grammar);
     }
 
-    toSAN(text) {
+    textToSan(text) {
         try {
             return this.parser.parse(text);
         }
@@ -322,4 +322,9 @@ export default class ChessNLP {
         }
     }
 
-}
+};
+
+// Allow users to call either textToSan() or toSAN()
+ChessNLP.prototype.toSAN = ChessNLP.prototype.textToSan;
+
+export default ChessNLP;

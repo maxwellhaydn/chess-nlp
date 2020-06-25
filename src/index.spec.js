@@ -18,7 +18,7 @@ describe('ChessNLP', function() {
 
     });
 
-    describe('toSAN', function() {
+    describe('textToSan', function() {
 
         it.each([
             ['bishop to D7', 'Bd7'],
@@ -54,28 +54,28 @@ describe('ChessNLP', function() {
             ['king dseven', 'Kd7'],
             ['rook six f eight', 'R6f8'],
             ['queen a-4', 'Qa4'],
-        ])('.toSAN(%j)', (text, expected) => {
+        ])('.textToSan(%j)', (text, expected) => {
             const parser = new ChessNLP();
 
-            expect(parser.toSAN(text)).to.equal(expected);
+            expect(parser.textToSan(text)).to.equal(expected);
         });
 
         it('should throw an error on invalid en passant', function() {
             const parser = new ChessNLP();
 
-            expect(() => parser.toSAN('g takes h7 en passant'))
+            expect(() => parser.textToSan('g takes h7 en passant'))
                 .to.throw('Invalid en passant capture');
         });
 
         it("should throw an error when text can't be parsed", function() {
             const parser = new ChessNLP();
 
-            expect(() => parser.toSAN('foo')).to.throw('Invalid move: foo');
+            expect(() => parser.textToSan('foo')).to.throw('Invalid move: foo');
         });
 
     });
 
-    describe('aliases', function() {
+    describe('user-provided aliases', function() {
 
         it.each([
             ['king', ['foo', 'bar'], 'bar takes c7', 'Kxc7'],
@@ -102,15 +102,28 @@ describe('ChessNLP', function() {
         ])('%j aliases', (target, aliases, text, expected) => {
             const parser = new ChessNLP({ aliases: { [target]: aliases } });
 
-            expect(parser.toSAN(text)).to.equal(expected);
+            expect(parser.textToSan(text)).to.equal(expected);
         });
 
         it('should allow aliases in any order', () => {
             const parser = new ChessNLP({ aliases: { 4: ['for', 'fore'] } });
 
-            expect(parser.toSAN('knight to h fore')).to.equal('Nh4');
+            expect(parser.textToSan('knight to h fore')).to.equal('Nh4');
         });
 
+    });
+
+    describe('method aliases', () => {
+
+        it.each([
+            ['textToSan', ['toSAN']],
+        ])('%s', (main, aliases) => {
+            const parser = new ChessNLP();
+
+            aliases.forEach(alias => {
+                expect(ChessNLP[alias]).to.equal(ChessNLP[main]);
+            });
+        });
     });
 
 });
