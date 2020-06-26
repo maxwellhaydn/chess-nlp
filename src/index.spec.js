@@ -18,7 +18,7 @@ describe('ChessNLP', function() {
 
     });
 
-    describe('toSAN', function() {
+    describe('textToSan', function() {
 
         it.each([
             ['bishop to D7', 'Bd7'],
@@ -54,28 +54,28 @@ describe('ChessNLP', function() {
             ['king dseven', 'Kd7'],
             ['rook six f eight', 'R6f8'],
             ['queen a-4', 'Qa4'],
-        ])('.toSAN(%j)', (text, expected) => {
+        ])('.textToSan(%j)', (text, expected) => {
             const parser = new ChessNLP();
 
-            expect(parser.toSAN(text)).to.equal(expected);
+            expect(parser.textToSan(text)).to.equal(expected);
         });
 
         it('should throw an error on invalid en passant', function() {
             const parser = new ChessNLP();
 
-            expect(() => parser.toSAN('g takes h7 en passant'))
+            expect(() => parser.textToSan('g takes h7 en passant'))
                 .to.throw('Invalid en passant capture');
         });
 
         it("should throw an error when text can't be parsed", function() {
             const parser = new ChessNLP();
 
-            expect(() => parser.toSAN('foo')).to.throw('Invalid move: foo');
+            expect(() => parser.textToSan('foo')).to.throw('Invalid move: foo');
         });
 
     });
 
-    describe('aliases', function() {
+    describe('user-provided aliases', function() {
 
         it.each([
             ['king', ['foo', 'bar'], 'bar takes c7', 'Kxc7'],
@@ -102,13 +102,58 @@ describe('ChessNLP', function() {
         ])('%j aliases', (target, aliases, text, expected) => {
             const parser = new ChessNLP({ aliases: { [target]: aliases } });
 
-            expect(parser.toSAN(text)).to.equal(expected);
+            expect(parser.textToSan(text)).to.equal(expected);
         });
 
         it('should allow aliases in any order', () => {
             const parser = new ChessNLP({ aliases: { 4: ['for', 'fore'] } });
 
-            expect(parser.toSAN('knight to h fore')).to.equal('Nh4');
+            expect(parser.textToSan('knight to h fore')).to.equal('Nh4');
+        });
+
+    });
+
+    describe('sanToText', () => {
+
+        it.each([
+            ['e4', 'e4'],
+            ['hxg2', 'h captures g2'],
+            ['axb8=Q', 'a captures b8 promote to queen'],
+            ['cxd1=Q+', 'c captures d1 promote to queen check'],
+            ['d8=Q#', 'd8 promote to queen checkmate'],
+            ['f1=N', 'f1 promote to knight'],
+            ['Kg2', 'king to g2'],
+            ['Qh7', 'queen to h7'],
+            ['Rab7', 'rook a to b7'],
+            ['Bc4', 'bishop to c4'],
+            ['N6e7', 'knight 6 to e7'],
+            ['O-O', 'castle kingside'],
+            ['O-O-O', 'castle queenside'],
+            ['0-1', 'black wins'],
+            ['1-0', 'white wins'],
+            ['1/2-1/2', 'draw'],
+        ])('.sanToText(%j)', (san, expected) => {
+            const parser = new ChessNLP();
+
+            expect(parser.sanToText(san)).to.equal(expected);
+        });
+
+        it("should throw an error when SAN can't be parsed", function() {
+            const parser = new ChessNLP();
+
+            expect(() => parser.sanToText('foo')).to.throw('Invalid move: foo');
+        });
+
+    });
+
+    describe('method aliases', () => {
+
+        it.each([
+            ['textToSan', 'toSAN'],
+            ['sanToText', 'fromSAN'],
+        ])('%s', (main, alias) => {
+            expect(ChessNLP.prototype[alias])
+                .to.equal(ChessNLP.prototype[main]);
         });
 
     });
