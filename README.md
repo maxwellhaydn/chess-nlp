@@ -1,7 +1,8 @@
 # chess-nlp
 
 A JavaScript library for converting natural language descriptions of chess moves
-to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
+to algebraic notation and vice versa. For example, "bishop takes a8" becomes
+"Bxa8".
 
 ## Installation
 
@@ -13,6 +14,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
 
     const parser = new ChessNLP();
     console.log(parser.textToSan('castle queenside')); // O-O-O
+    console.log(parser.sanToText('Naxe7#')); // knight a captures e7 checkmate
 
 ## Browser usage
 
@@ -22,6 +24,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
     <script>
       var parser = new ChessNLP();
       console.log(parser.textToSan('castle queenside')); // O-O-O
+      console.log(parser.sanToText('Naxe7#')); // knight a captures e7 checkmate
     </script>
 
 ### Webpack
@@ -30,6 +33,7 @@ to algebraic notation. For example, "bishop takes a8" becomes "Bxa8".
 
     const parser = new ChessNLP();
     console.log(parser.textToSan('castle queenside')); // O-O-O
+    console.log(parser.sanToText('Naxe7#')); // knight a captures e7 checkmate
 
 ## Configuration
 
@@ -80,13 +84,17 @@ The aliases object can contain the following keys:
 * 7
 * 8
 
-## Exceptions
+## Methods
 
-The parser will throw an exception if the supplied text cannot be parsed:
+### textToSan(text)
+### toSAN(text)
+
+Convert `text` to standard algebraic notation. Throws an exception if the text
+isn't a valid chess move.
 
     parser.textToSan('foo'); // Invalid move: foo
 
-## Examples
+#### Examples
 
     bishop to D7                    -> Bd7
     rook A1                         -> Ra1
@@ -110,3 +118,30 @@ The parser will throw an exception if the supplied text cannot be parsed:
     Black Resigns                   -> 1-0
     white resigns                   -> 0-1
     king to d seven                 -> Kd7
+
+### sanToText(san)
+### fromSAN(san)
+
+Convert `san` to a natural language description. Throws an exception if the text
+isn't a valid chess move.
+
+    parser.sanToText('bar'); // Invalid move: bar
+
+#### Examples
+
+    e4      -> e4
+    hxg2    -> h captures g2
+    axb8=Q  -> a captures b8 promote to queen
+    cxd1=Q+ -> c captures d1 promote to queen check
+    d8=Q#   -> d8 promote to queen checkmate
+    f1=N    -> f1 promote to knight
+    Kg2     -> king to g2
+    Qh7     -> queen to h7
+    Rab7    -> rook a to b7
+    Bc4     -> bishop to c4
+    N6e7    -> knight 6 to e7
+    O-O     -> castle kingside
+    O-O-O   -> castle queenside
+    0-1     -> black wins
+    1-0     -> white wins
+    1/2-1/2 -> draw

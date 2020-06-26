@@ -1,6 +1,7 @@
 import peg from 'pegjs';
 
-import grammar from './grammar/textToSan';
+import sanToTextGrammar from './grammar/sanToText';
+import textToSanGrammar from './grammar/textToSan';
 
 // Rules that can be configured by the user. For example, users could add
 // aliases for common misspellings of terms, like "night" instead of "knight"
@@ -145,22 +146,24 @@ const ChessNLP = class ChessNLP {
 
     constructor({ aliases } = { aliases: {} }) {
         this.aliases = aliases;
-        this.grammar = grammar;
+        this.textToSanGrammar = textToSanGrammar;
+        this.sanToTextGrammar = sanToTextGrammar;
 
         // Generate the text for configurable rules, applying any aliases
         // supplied by the user, and append to the default grammar
         for (let ruleTarget in configurableRules) {
             const rule = configurableRules[ruleTarget];
-            this.grammar +=
+            this.textToSanGrammar +=
                 generateRuleText(rule, this.aliases[ruleTarget] || []);
         }
 
-        this.parser = peg.generate(this.grammar);
+        this.textToSanParser = peg.generate(this.textToSanGrammar);
+        this.sanToTextParser = peg.generate(this.sanToTextGrammar);
     }
 
     textToSan(text) {
         try {
-            return this.parser.parse(text);
+            return this.textToSanParser.parse(text);
         }
         catch (error) {
             if (error.name === 'SyntaxError') {
@@ -171,9 +174,24 @@ const ChessNLP = class ChessNLP {
         }
     }
 
+    sanToText(san) {
+        try {
+            return this.sanToTextParser.parse(san);
+        }
+        catch (error) {
+            if (error.name === 'SyntaxError') {
+                throw new Error(`Invalid move: ${san}`);
+            }
+
+            throw error;
+        }
+    }
+
 };
 
-// Allow users to call either textToSan() or toSAN()
+// Allow users to call either textToSan() or toSAN() and either sanToText() or
+// fromSAN()
 ChessNLP.prototype.toSAN = ChessNLP.prototype.textToSan;
+ChessNLP.prototype.fromSAN = ChessNLP.prototype.sanToText;
 
 export default ChessNLP;
