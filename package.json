@@ -1,7 +1,7 @@
 {
   "name": "chess-nlp",
-  "version": "1.4.0",
-  "description": "Convert natural language descriptions of chess moves to algebraic notation",
+  "version": "1.5.0",
+  "description": "Convert natural language descriptions of chess moves to algebraic notation and vice versa",
   "main": "dist/chess-nlp.js",
   "scripts": {
     "test": "jest",
