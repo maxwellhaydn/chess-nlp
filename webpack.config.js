@@ -27,6 +27,10 @@ module.exports = {
                         babelrc: true
                     }
                 }
+            },
+            {
+                test: path.resolve(__dirname, 'src', 'grammar'),
+                use: 'raw-loader'
             }
         ]
     }

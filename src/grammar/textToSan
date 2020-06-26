@@ -1,0 +1,155 @@
+/**
+ * A grammar for parsing natural language (English) descriptions of chess moves
+ * and converting them into standard algebraic notation.
+ */
+
+start
+    = move
+
+move
+    = // e.g. "bishop d6 check"
+      parts:(
+          (piece_move / pawn_move / castle) whitespace (checkmate / check)
+      )
+      { return parts.join(''); }
+      /
+
+      // e.g. "Knight to c7"
+      (piece_move / pawn_move / castle)
+      /
+
+      // e.g. "White resigns"
+      resign
+
+piece_move
+    = parts:(
+          // e.g. "knight A takes B4"
+          piece whitespace departure whitespace action whitespace destination /
+
+          // e.g. "Rook 2 c7"
+          piece whitespace departure whitespace destination /
+
+          // e.g. "Queen to H6"
+          piece whitespace action whitespace destination /
+
+          // e.g. "king e3"
+          piece whitespace destination
+      )
+      { return parts.join(''); }
+
+pawn_move
+    = // e.g. "a captures b5 en passant"
+      en_passant /
+
+      // e.g. "F captures E8 promote to knight"
+      parts:(pawn_capture whitespace pawn_promotion)
+      { return parts.join(''); }
+      /
+
+      // e.g. "c8 promote to Queen"
+      parts:(destination whitespace pawn_promotion)
+      { return parts.join(''); }
+      /
+
+      // e.g. "F takes G3"
+      pawn_capture /
+
+      // e.g. "c6"
+      destination
+
+/**
+ * In en passant, the move is written as if the captured pawn had only moved
+ * one square rather than two. For example, if white's g2 pawn moves to g4
+ * and is captured en passant by black's f4 pawn, the move is written as
+ * fxg3
+ */
+en_passant
+    = parts:(
+          file
+          whitespace
+          capture
+      )
+      whitespace
+      dest_file:file
+      dest_rank:rank
+      whitespace
+      'en passant'i
+      {
+          let final_rank;
+
+          switch (dest_rank) {
+              case '4':           // black capturing white
+                  final_rank = 3;
+                  break;
+              case '5':           // white capturing black
+                  final_rank = 4;
+                  break;
+              default:
+                  throw new Error('Invalid en passant capture');
+          }
+
+          return parts.join('') + dest_file + final_rank;
+      }
+
+pawn_capture
+    = parts:(file whitespace capture whitespace destination)
+      { return parts.join(''); }
+
+pawn_promotion
+    = 'promote to'i whitespace piece:piece { return '=' + piece; }
+
+check
+    = 'check'i { return '+'; }
+
+checkmate
+    = ('checkmate'i / 'mate'i) { return '#'; }
+
+castle
+    = 'castle'i whitespace side:(kingside / queenside)
+      { return /king/i.test(side) ? 'O-O' : 'O-O-O'; }
+
+kingside
+    = 'king'i whitespace 'side'i / 'king-side'i / 'kingside'i
+
+queenside
+    = 'queen'i whitespace 'side'i / 'queen-side'i / 'queenside'i
+
+resign
+    = player:('black'i / 'white'i) whitespace 'resigns'i
+      { return /black/i.test(player) ? '1-0' : '0-1'; }
+
+whitespace
+    = ' '* { return ''; }
+
+action
+    = capture / to
+
+to
+    = ('moves to'i / 'move to'i / 'to'i) { return ''; }
+
+capture
+    = ('captures'i / 'capture'i / 'takes'i / 'take'i) { return 'x'; }
+
+departure
+    = square / file / rank
+
+destination
+    = square
+
+square
+    = coordinates:(
+          file rank /
+          file whitespace rank /
+          file:(file) '-' rank:(rank) { return [file, rank]; }
+      )
+      { return coordinates.join(''); }
+
+rank
+    = rank_1 / rank_2 / rank_3 / rank_4 / rank_5 / rank_6 / rank_7 / rank_8
+
+file
+    = file_a / file_b / file_c / file_d / file_e / file_f / file_g / file_h
+
+piece
+    = king / queen / rook / bishop / knight
+
