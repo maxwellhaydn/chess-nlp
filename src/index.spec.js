@@ -29,7 +29,7 @@ describe('ChessNLP', function() {
             ['Bishop 2 h8', 'B2h8'],
             ['Queen C2D3', 'Qc2d3'],
             ['F captures G4 en passant', 'fxg3'],
-            ['a takes b5 en passant', 'axb4'],
+            ['a takes b5 en passant', 'axb6'],
             ['E5', 'e5'],
             ['h take G6', 'hxg6'],
             ['c8 promote to Queen', 'c8=Q'],
