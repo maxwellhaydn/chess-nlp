@@ -86,8 +86,7 @@ The aliases object can contain the following keys:
 
 ## Methods
 
-### textToSan(text)
-### toSAN(text)
+### textToSan(text) / toSAN(text)
 
 Convert `text` to standard algebraic notation. Throws an exception if the text
 isn't a valid chess move.
@@ -105,7 +104,7 @@ isn't a valid chess move.
     Queen C2D3                      -> Qc2d3
     queen c 2 d 3                   -> Qc2d3
     F captures G4 en passant        -> fxg3
-    a takes b5 en passant           -> axb4
+    a takes b5 en passant           -> axb6
     E5                              -> e5
     h take G6                       -> hxg6
     c8 promote to Queen             -> c8=Q
@@ -119,8 +118,7 @@ isn't a valid chess move.
     white resigns                   -> 0-1
     king to d seven                 -> Kd7
 
-### sanToText(san)
-### fromSAN(san)
+### sanToText(san) / fromSAN(san)
 
 Convert `san` to a natural language description. Throws an exception if the text
 isn't a valid chess move.
@@ -145,3 +143,78 @@ isn't a valid chess move.
     0-1     -> black wins
     1-0     -> white wins
     1/2-1/2 -> draw
+
+## Configuration (for Spanish grammar)
+The parser can be configured to accept spanish grammar.
+
+    const options = {
+        language: 'es'
+        }
+    };
+    const parser = new ChessNLP(options);
+
+You can use both, aliases and language configurations:
+
+    const options = {
+        aliases: {
+            knight: ['horse', 'jumper'],
+            rook: ['tower'],
+            a: ['alpha'],
+            b: ['beta', 'bravo'],
+            c: ['charlie'],
+            1: ['i'],
+            2: ['ii'],
+            3: ['iii']
+        },
+        language: 'es'
+        }
+    };
+    
+    const parser = new ChessNLP(options);
+
+Language are mutually exclusive, if you set spanish, you can't parse english grammar and viceversa.
+Default language is english.
+
+#### sanToText(san) / fromSAN(san) examples (spanish grammar)
+
+    e4      -> e4
+    hxg2    -> h por g2
+    axb8=Q  -> a por b8 igual dama
+    cxd1=Q+ -> c por d1 igual dama jaque
+    d8=Q#   -> d8 igual dama jaque mate
+    f1=N    -> f1 igual caballo
+    Kg2     -> rey g2
+    Qh7     -> dama h7
+    Rab7    -> torre a b7
+    Bc4     -> alfil c4
+    N6e7    -> caballo 6 e7
+    O-O     -> enroque corto
+    O-O-O   -> enroque largo
+    0-1     -> ganan negras
+    1-0     -> ganan blancas
+    1/2-1/2 -> tablas
+
+#### textToSan(text) / toSAN(text) examples (spanish grammar)
+
+    alfil d7                   -> Bd7
+    torre A1                   -> Ra1
+    dama por H8                -> Qxh8
+    rey por F5                 -> Kxf5
+    caballo a B4               -> Nab4
+    alfil 2 h8                 -> B2h8
+    dama C2D3                  -> Qc2d3
+    dama C 2 D 3               -> Qc2d3
+    F captura g4 al paso       -> fxg3
+    a por b5 al paso           -> axb6
+    e5                         -> e5
+    h por G6                   -> hxg6
+    c8 igual dama              -> c8=Q
+    f captura e8 igual caballo -> fxe8=N
+    torre por b7 jaque mate    -> Rxb7#
+    alfil a c3 jaque           -> Bac3+
+    e7 jaque                   -> e7+
+    enroque                    -> O-O
+    enroque largo              -> O-O-O
+    negras abandonan           -> 1-0
+    blancas abandonan          -> 0-1
+    rey d7                     -> Kd7

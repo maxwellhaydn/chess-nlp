@@ -1,5 +1,5 @@
 /**
- * A grammar for parsing natural language (English) descriptions of chess moves
+ * A grammar for parsing natural language (Spanish) descriptions of chess moves
  * and converting them into standard algebraic notation.
  */
 
@@ -73,7 +73,7 @@ en_passant
       dest_file:file
       dest_rank:rank
       whitespace
-      'en passant'i
+      'al paso'i
       {
           let final_rank;
 
@@ -85,7 +85,7 @@ en_passant
                   final_rank = 6;
                   break;
               default:
-                  throw new Error('Invalid en passant capture');
+                  throw new Error('Captura al paso inválida');
           }
 
           return parts.join('') + dest_file + final_rank;
@@ -96,39 +96,33 @@ pawn_capture
       { return parts.join(''); }
 
 pawn_promotion
-    = 'promote to'i whitespace piece:piece { return '=' + piece; }
+    = ('igual'i / 'promociona'i ) whitespace piece:piece { return '=' + piece; }
 
 check
-    = 'check'i { return '+'; }
+    = 'jaque'i { return '+'; }
 
 checkmate
-    = ('checkmate'i / 'mate'i) { return '#'; }
+    = ('jaque mate'i / 'mate'i) { return '#'; }
 
 castle
-    = 'castle'i whitespace side:(kingside / queenside)
-      { return /king/i.test(side) ? 'O-O' : 'O-O-O'; }
-
-kingside
-    = 'king'i whitespace 'side'i / 'king-side'i / 'kingside'i
-
-queenside
-    = 'queen'i whitespace 'side'i / 'queen-side'i / 'queenside'i
+    = ('enroque'i whitespace 'corto'i) { return 'O-O'; }
+      /      
+      ('enroque'i whitespace 'largo'i) { return 'O-O-O'; }
+      /
+      ('enroque'i) { return 'O-O'; }
 
 resign
-    = player:('black'i / 'white'i) whitespace 'resigns'i
-      { return /black/i.test(player) ? '1-0' : '0-1'; }
+    = player:('negras'i / 'blancas'i) whitespace 'abandonan'i
+      { return /negras/i.test(player) ? '1-0' : '0-1'; }
 
 whitespace
     = ' '* { return ''; }
 
 action
-    = capture / to
-
-to
-    = ('moves to'i / 'move to'i / 'to'i) { return ''; }
+    = capture 
 
 capture
-    = ('captures'i / 'capture'i / 'takes'i / 'take'i) { return 'x'; }
+    = ('por'i / 'captura'i / 'toma'i / 'come'i) { return 'x'; }
 
 departure
     = square / file / rank
@@ -145,11 +139,11 @@ square
       { return coordinates.join(''); }
 
 rank
-    = rank_1 / rank_2 / rank_3 / rank_4 / rank_5 / rank_6 / rank_7 / rank_8
+    = (rank_1 / rank_2 / rank_3 / rank_4 / rank_5 / rank_6 / rank_7 / rank_8)
 
 file
-    = file_a / file_b / file_c / file_d / file_e / file_f / file_g / file_h
+    = (file_a / file_b / file_c / file_d / file_e / file_f / file_g / file_h)
 
 piece
-    = king / queen / rook / bishop / knight
+    = (king / queen / rook / bishop / knight)
 

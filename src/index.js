@@ -2,6 +2,8 @@ import peg from 'pegjs';
 
 import sanToTextGrammar from './grammar/sanToText';
 import textToSanGrammar from './grammar/textToSan';
+import sanToTextGrammarES from './grammar/sanToTextES';
+import textToSanGrammarES from './grammar/textToSanES';
 
 // Rules that can be configured by the user. For example, users could add
 // aliases for common misspellings of terms, like "night" instead of "knight"
@@ -9,27 +11,27 @@ const configurableRules = {
     // Pieces
     king: {
         name: 'king',
-        defaultTerms: ['king'],
+        defaultTerms: ['king', 'rey'],
         action: "return 'K';"
     },
     queen: {
         name: 'queen',
-        defaultTerms: ['queen'],
+        defaultTerms: ['queen', 'dama'],
         action: "return 'Q';"
     },
     rook: {
         name: 'rook',
-        defaultTerms: ['rook'],
+        defaultTerms: ['rook', 'torre'],
         action: "return 'R';"
     },
     bishop: {
         name: 'bishop',
-        defaultTerms: ['bishop'],
+        defaultTerms: ['bishop', 'alfil'],
         action: "return 'B';"
     },
     knight: {
         name: 'knight',
-        defaultTerms: ['knight'],
+        defaultTerms: ['knight', 'caballo'],
         action: "return 'N';"
     },
     // Files
@@ -136,18 +138,25 @@ const generateRuleText = (rule, aliases) => {
  *
  * Examples:
  *
- *     c6                       -> c6
- *     f captures g4 en passant -> fxg3
- *     bishop a takes e4        -> Baxe4
- *     castle queenside         -> O-O-O
- *     white resigns            -> 0-1
+ *     c6                       -> c6       ES: c6
+ *     f captures g4 en passant -> fxg3     ES: f captura g4 al paso
+ *     bishop a takes e4        -> Baxe4    ES: alfil por/toma e4
+ *     castle queenside         -> O-O-O    ES: enroque largo
+ *     white resigns            -> 0-1      ES: blancas abandonan
  */
 const ChessNLP = class ChessNLP {
 
-    constructor({ aliases } = { aliases: {} }) {
+    constructor({ aliases = {}, language = 'en' }) {
         this.aliases = aliases;
-        this.textToSanGrammar = textToSanGrammar;
-        this.sanToTextGrammar = sanToTextGrammar;
+
+        // Take the ES grammar if the entry param is 'es'
+        if (language.toLowerCase()==='es') {
+            this.textToSanGrammar = textToSanGrammarES;
+            this.sanToTextGrammar = sanToTextGrammarES;
+        } else {
+            this.textToSanGrammar = textToSanGrammar;
+            this.sanToTextGrammar = sanToTextGrammar;
+        }
 
         // Generate the text for configurable rules, applying any aliases
         // supplied by the user, and append to the default grammar
