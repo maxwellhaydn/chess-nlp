@@ -82,7 +82,7 @@ en_passant
                   final_rank = 3;
                   break;
               case '5':           // white capturing black
-                  final_rank = 4;
+                  final_rank = 6;
                   break;
               default:
                   throw new Error('Invalid en passant capture');
