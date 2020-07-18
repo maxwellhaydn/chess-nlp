@@ -96,7 +96,7 @@ pawn_capture
       { return parts.join(''); }
 
 pawn_promotion
-    = ('igual'i / 'promociona'i ) whitespace piece:piece { return '=' + piece; }
+    = ('igual'i / 'promociona'i / 'corona'i / 'corona con'i ) whitespace piece:piece { return '=' + piece; }
 
 check
     = 'jaque'i { return '+'; }

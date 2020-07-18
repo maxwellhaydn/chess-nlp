@@ -52,7 +52,7 @@ pawn_capture
     = parts:(file capture destination) { return parts.join(' '); }
 
 pawn_promotion
-    = '=' piece:piece { return `igual ${piece}`; }
+    = '=' piece:piece { return `corona a ${piece}`; }
 
 castle
     = 'O-O-O' { return 'enroque largo' } /
