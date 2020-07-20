@@ -11,7 +11,9 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/59612229?v=4",
       "profile": "http://www.valcarce.com.ar",
       "contributions": [
-        "code"
+        "code",
+        "test",
+        "doc"
       ]
     }
   ],
