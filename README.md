@@ -216,7 +216,7 @@ You can combine it with aliases :
     1-0     -> ganan blancas
     1/2-1/2 -> tablas
     
-## Contributors ?
+## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -225,7 +225,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://www.valcarce.com.ar"><img src="https://avatars3.githubusercontent.com/u/59612229?v=4" width="100px;" alt=""/><br /><sub><b>Diego Valcarce</b></sub></a><br /><a href="https://github.com/maxwellhaydn/chess-nlp/commits?author=diegovalcarce" title="Code">??</a></td>
+    <td align="center"><a href="http://www.valcarce.com.ar"><img src="https://avatars3.githubusercontent.com/u/59612229?v=4" width="100px;" alt=""/><br /><sub><b>Diego Valcarce</b></sub></a><br /><a href="https://github.com/maxwellhaydn/chess-nlp/commits?author=diegovalcarce" title="Code">💻</a> <a href="https://github.com/maxwellhaydn/chess-nlp/commits?author=diegovalcarce" title="Tests">⚠️</a> <a href="https://github.com/maxwellhaydn/chess-nlp/commits?author=diegovalcarce" title="Documentation">📖</a></td>
   </tr>
 </table>
 
