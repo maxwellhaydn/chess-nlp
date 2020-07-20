@@ -3,6 +3,7 @@
   "version": "1.6.0",
   "description": "Convert natural language descriptions of chess moves to algebraic notation and vice versa",
   "main": "dist/chess-nlp.js",
+  "files": ["dist/"],
   "scripts": {
     "test": "jest",
     "test:watch": "npm test -- --watch",
