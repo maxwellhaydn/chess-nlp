@@ -1,120 +1,9 @@
 import peg from 'pegjs';
 
-import sanToTextGrammar from './grammar/sanToText';
-import textToSanGrammar from './grammar/textToSan';
-
-// Rules that can be configured by the user. For example, users could add
-// aliases for common misspellings of terms, like "night" instead of "knight"
-const configurableRules = {
-    // Pieces
-    king: {
-        name: 'king',
-        defaultTerms: ['king'],
-        action: "return 'K';"
-    },
-    queen: {
-        name: 'queen',
-        defaultTerms: ['queen'],
-        action: "return 'Q';"
-    },
-    rook: {
-        name: 'rook',
-        defaultTerms: ['rook'],
-        action: "return 'R';"
-    },
-    bishop: {
-        name: 'bishop',
-        defaultTerms: ['bishop'],
-        action: "return 'B';"
-    },
-    knight: {
-        name: 'knight',
-        defaultTerms: ['knight'],
-        action: "return 'N';"
-    },
-    // Files
-    a: {
-        name: 'file_a',
-        defaultTerms: ['a'],
-        action: "return 'a';"
-    },
-    b: {
-        name: 'file_b',
-        defaultTerms: ['b'],
-        action: "return 'b';"
-    },
-    c: {
-        name: 'file_c',
-        defaultTerms: ['c'],
-        action: "return 'c';"
-    },
-    d: {
-        name: 'file_d',
-        defaultTerms: ['d'],
-        action: "return 'd';"
-    },
-    e: {
-        name: 'file_e',
-        defaultTerms: ['e'],
-        action: "return 'e';"
-    },
-    f: {
-        name: 'file_f',
-        defaultTerms: ['f'],
-        action: "return 'f';"
-    },
-    g: {
-        name: 'file_g',
-        defaultTerms: ['g'],
-        action: "return 'g';"
-    },
-    h: {
-        name: 'file_h',
-        defaultTerms: ['h'],
-        action: "return 'h';"
-    },
-    // Ranks
-    1: {
-        name: 'rank_1',
-        defaultTerms: ['1', 'one'],
-        action: "return '1';"
-    },
-    2: {
-        name: 'rank_2',
-        defaultTerms: ['2', 'two'],
-        action: "return '2';"
-    },
-    3: {
-        name: 'rank_3',
-        defaultTerms: ['3', 'three'],
-        action: "return '3';"
-    },
-    4: {
-        name: 'rank_4',
-        defaultTerms: ['4', 'four'],
-        action: "return '4';"
-    },
-    5: {
-        name: 'rank_5',
-        defaultTerms: ['5', 'five'],
-        action: "return '5';"
-    },
-    6: {
-        name: 'rank_6',
-        defaultTerms: ['6', 'six'],
-        action: "return '6';"
-    },
-    7: {
-        name: 'rank_7',
-        defaultTerms: ['7', 'seven'],
-        action: "return '7';"
-    },
-    8: {
-        name: 'rank_8',
-        defaultTerms: ['8', 'eight'],
-        action: "return '8';"
-    },
-};
+import sanToTextGrammarEN from './grammar/en/sanToText';
+import textToSanGrammarEN from './grammar/en/textToSan';
+import sanToTextGrammarES from './grammar/es/sanToText';
+import textToSanGrammarES from './grammar/es/textToSan';
 
 /**
  * Given a configurable rule and an array of aliases, generate the rule text to
@@ -131,24 +20,32 @@ const generateRuleText = (rule, aliases) => {
     return `${rule.name} = ( ${terms.join(' / ')} ) { ${rule.action} }\n`;
 };
 
-/**
- * Convert natural language text to chess standard algebraic notation (SAN).
- *
- * Examples:
- *
- *     c6                       -> c6
- *     f captures g4 en passant -> fxg3
- *     bishop a takes e4        -> Baxe4
- *     castle queenside         -> O-O-O
- *     white resigns            -> 0-1
- */
+// ChessNLP class
 const ChessNLP = class ChessNLP {
 
-    constructor({ aliases } = { aliases: {} }) {
+    constructor({ aliases = {}, language = 'en' } = {}) {
+        
         this.aliases = aliases;
-        this.textToSanGrammar = textToSanGrammar;
-        this.sanToTextGrammar = sanToTextGrammar;
+        this.language = language;
 
+        let configurableRules;
+
+        // Take correct grammar based on language param
+        switch (this.language.toLowerCase()) {
+            case 'es':
+                configurableRules = require('./grammar/es/aliases.json');
+                this.textToSanGrammar = textToSanGrammarES;
+                this.sanToTextGrammar = sanToTextGrammarES;
+                break;           
+
+            default:
+                configurableRules = require('./grammar/en/aliases.json');
+                this.textToSanGrammar = textToSanGrammarEN;
+                this.sanToTextGrammar = sanToTextGrammarEN;
+        }
+  
+        // Rules that can be configured by the user. For example, users could add
+        // aliases for common misspellings of terms, like "night" instead of "knight"
         // Generate the text for configurable rules, applying any aliases
         // supplied by the user, and append to the default grammar
         for (let ruleTarget in configurableRules) {
@@ -167,7 +64,13 @@ const ChessNLP = class ChessNLP {
         }
         catch (error) {
             if (error.name === 'SyntaxError') {
-                throw new Error(`Invalid move: ${text}`);
+                switch (this.language.toLowerCase()) {
+                    case 'es':
+                        throw new Error(`Movimiento inválido: ${text}`);
+        
+                    default:
+                        throw new Error(`Invalid move: ${text}`);
+                }
             }
 
             throw error;
@@ -180,7 +83,13 @@ const ChessNLP = class ChessNLP {
         }
         catch (error) {
             if (error.name === 'SyntaxError') {
-                throw new Error(`Invalid move: ${san}`);
+                switch (this.language.toLowerCase()) {
+                    case 'es':
+                        throw new Error(`Movimiento inválido: ${san}`);
+        
+                    default:
+                        throw new Error(`Invalid move: ${san}`);
+                }
             }
 
             throw error;

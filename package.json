@@ -41,7 +41,8 @@
   "jest": {
     "transform": {
       "^.+\\.[jt]sx?$": "babel-jest",
-      "/src/grammar/.+": "jest-raw-loader"
+      "^.+grammar.+(en|es).+sanToText$": "jest-raw-loader",
+      "^.+grammar.+(en|es).+textToSan$": "jest-raw-loader"
     }
   }
 }

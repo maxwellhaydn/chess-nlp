@@ -149,7 +149,74 @@ isn't a valid chess move.
     1-0     -> white wins
     1/2-1/2 -> draw
 
-## Contributors ✨
+## Spanish Translation
+
+### Configuration
+
+The parser can be configured to accept spanish translation. Both for SANToText and TextToSAN.
+
+    const options = {
+        language: 'es'
+    };
+    const parser = new ChessNLP(options);
+
+You can combine it with aliases :
+
+    const options = {
+        aliases: {
+            queen: ['reina']
+        },
+        language: 'es'
+    };
+    const parser = new ChessNLP(options);
+
+### TextToSAN / ToSAN - Spanish Examples
+
+    Alfil D7                        -> Bd7
+    Torre A1                        -> Ra1
+    Dama por h8                     -> Qxh8
+    rey por F5                      -> Kxf5
+    Caballo a b4                    -> Nab4
+    alfil 2 h8                      -> B2h8
+    Dama C2D3                       -> Qc2d3
+    F por G4 al paso                -> fxg3
+    a come b5 al paso               -> axb6
+    E5                              -> e5
+    h captura G6                    -> hxg6
+    c8 promociona dama              -> c8=Q
+    c8 corona dama                  -> c8=Q
+    c8 igual dama                   -> c8=Q
+    f por E8 corona caballo         -> fxe8=N
+    torre por b7 mate               -> Rxb7#
+    alfil a c3 jaque                -> Bac3+
+    e7 jaque                        -> e7+
+    enroque                         -> O-O
+    enroque corto                   -> O-O
+    enroque largo                   -> O-O-O
+    negras abandonan                -> 1-0
+    blancas abandonan               -> 0-1
+    rey d siete                     -> Kd7
+
+### sanToText / fromSAN - Spanish Examples
+
+    e4      -> e4
+    hxg2    -> h por g2
+    axb8=Q  -> a por b8 corona a dama
+    cxd1=Q+ -> c por d1 corona a dama jaque
+    d8=Q#   -> d8 corona a dama jaque mate
+    f1=N    -> f1 corona a caballo
+    Kg2     -> rey g2
+    Qh7     -> dama h7
+    Rab7    -> torre a b7
+    Bc4     -> alfil c4
+    N6e7    -> caballo 6 e7
+    O-O     -> enroque corto
+    O-O-O   -> enroque largo
+    0-1     -> ganan negras
+    1-0     -> ganan blancas
+    1/2-1/2 -> tablas
+    
+## Contributors ?
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -158,7 +225,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://www.valcarce.com.ar"><img src="https://avatars3.githubusercontent.com/u/59612229?v=4" width="100px;" alt=""/><br /><sub><b>Diego Valcarce</b></sub></a><br /><a href="https://github.com/maxwellhaydn/chess-nlp/commits?author=diegovalcarce" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.valcarce.com.ar"><img src="https://avatars3.githubusercontent.com/u/59612229?v=4" width="100px;" alt=""/><br /><sub><b>Diego Valcarce</b></sub></a><br /><a href="https://github.com/maxwellhaydn/chess-nlp/commits?author=diegovalcarce" title="Code">??</a></td>
   </tr>
 </table>
 

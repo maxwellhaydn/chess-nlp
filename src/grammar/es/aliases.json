@@ -1,0 +1,107 @@
+﻿{
+    "king": {
+        "name": "king",
+        "defaultTerms": ["rey"],
+        "action": "return 'K';"
+    },
+    "queen": {
+        "name": "queen",
+        "defaultTerms": ["dama"],
+        "action": "return 'Q';"
+    },
+    "rook": {
+        "name": "rook",
+        "defaultTerms": ["torre"],
+        "action": "return 'R';"
+    },
+    "bishop": {
+        "name": "bishop",
+        "defaultTerms": ["alfil"],
+        "action": "return 'B';"
+    },
+    "knight": {
+        "name": "knight",
+        "defaultTerms": ["caballo"],
+        "action": "return 'N';"
+    },
+    "a": {
+        "name": "file_a",
+        "defaultTerms": ["a"],
+        "action": "return 'a';"
+    },
+    "b": {
+        "name": "file_b",
+        "defaultTerms": ["b"],
+        "action": "return 'b';"
+    },
+    "c": {
+        "name": "file_c",
+        "defaultTerms": ["c"],
+        "action": "return 'c';"
+    },
+    "d": {
+        "name": "file_d",
+        "defaultTerms": ["d"],
+        "action": "return 'd';"
+    },
+    "e": {
+        "name": "file_e",
+        "defaultTerms": ["e"],
+        "action": "return 'e';"
+    },
+    "f": {
+        "name": "file_f",
+        "defaultTerms": ["f"],
+        "action": "return 'f';"
+    },
+    "g": {
+        "name": "file_g",
+        "defaultTerms": ["g"],
+        "action": "return 'g';"
+    },
+    "h": {
+        "name": "file_h",
+        "defaultTerms": ["h"],
+        "action": "return 'h';"
+    },
+    "1": {
+        "name": "rank_1",
+        "defaultTerms": ["1", "uno"],
+        "action": "return '1';"
+    },
+    "2": {
+        "name": "rank_2",
+        "defaultTerms": ["2", "dos"],
+        "action": "return '2';"
+    },
+    "3": {
+        "name": "rank_3",
+        "defaultTerms": ["3", "tres"],
+        "action": "return '3';"
+    },
+    "4": {
+        "name": "rank_4",
+        "defaultTerms": ["4", "cuatro"],
+        "action": "return '4';"
+    },
+    "5": {
+        "name": "rank_5",
+        "defaultTerms": ["5", "cinco"],
+        "action": "return '5';"
+    },
+    "6": {
+        "name": "rank_6",
+        "defaultTerms": ["6", "seis"],
+        "action": "return '6';"
+    },
+    "7": {
+        "name": "rank_7",
+        "defaultTerms": ["7", "siete"],
+        "action": "return '7';"
+    },
+    "8": {
+        "name": "rank_8",
+        "defaultTerms": ["8", "ocho"],
+        "action": "return '8';"
+    }
+}
