@@ -30,6 +30,7 @@ module.exports = {
             },
             {
                 test: path.resolve(__dirname, 'src', 'grammar'),
+                exclude: (/node_modules/|/\.json$/),
                 use: 'raw-loader'
             }
         ]

@@ -1,0 +1,95 @@
+/**
+ * A grammar for parsing chess moves in standard algebraic notation to natural
+ * language (Spanish) descriptions.
+ */
+
+start
+    = move
+
+move
+    = // e.g. "Nxg1+"
+      parts:(
+          (piece_move / pawn_move / castle) (checkmate / check)
+      )
+      { return parts.join(' '); }
+      /
+
+      // e.g. "d7"
+      (piece_move / pawn_move / castle)
+      /
+
+      // e.g. "0-1"
+      game_over
+
+piece_move
+    = // e.g. "Raxd6"
+      parts:(piece departure capture destination) { return parts.join(' '); } /
+
+      // e.g. "N4e5"
+      piece:piece dep:departure dest:destination
+      { return `${piece} ${dep} ${dest}`; } /
+
+      // e.g. "Kxh1"
+      parts:(piece capture destination) { return parts.join(' '); } /
+
+      // e.g. "Ba7"
+      piece:piece dest:destination { return `${piece} ${dest}`; }
+
+pawn_move
+    = // e.g. "exf1=Q"
+      parts:(pawn_capture pawn_promotion) { return parts.join(' '); } /
+
+      // e.g. "c8=N"
+      parts:(destination pawn_promotion) { return parts.join(' '); } /
+
+      // e.g. "gxh6"
+      pawn_capture /
+
+      // e.g. "e5"
+      destination
+
+pawn_capture
+    = parts:(file capture destination) { return parts.join(' '); }
+
+pawn_promotion
+    = '=' piece:piece { return `corona a ${piece}`; }
+
+castle
+    = 'O-O-O' { return 'enroque largo' } /
+      'O-O' { return 'enroque corto'; }
+
+game_over
+    = '0-1' { return 'ganan negras'; } /
+      '1-0' { return 'ganan blancas'; } /
+      '1/2-1/2' { return 'tablas'; }
+
+capture
+    = 'x' { return 'por'; }
+
+check
+    = '+' { return 'jaque'; }
+
+checkmate
+    = '#' { return 'jaque mate'; }
+
+departure
+    = square / file / rank
+
+destination
+    = square
+
+square
+    = file:file rank:rank { return `${file}${rank}`; }
+
+file
+    = [a-h]
+
+rank
+    = [1-8]
+
+piece
+    = 'K' { return 'rey'; } /
+      'Q' { return 'dama'; } /
+      'R' { return 'torre'; } /
+      'B' { return 'alfil'; } /
+      'N' { return 'caballo'; }
